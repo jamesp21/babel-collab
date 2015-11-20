@@ -1,52 +1,81 @@
 body {
-      padding-top: 50px;
-      margin-bottom: 60px;
-    }
+  padding-top: 50px;
+  margin-bottom: 60px;
+  text-align: center;
+}
 
-    html {
-      position: relative;
-      min-height: 100%;
-    }
+html {
+  position: relative;
+  min-height: 100%;
+}
 
-    .footer {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      /* Set the fixed height of the footer here */
-      height: 30px;
-      background-color: #FAFAFA;
-      text-align: center;
-    }
+#navbar {
+	font-size: 20px;
+}
 
-    .starter-template {
-      padding: 40px 15px;
-    }
+.navbar{
+	background-color: #000277;
+}
 
-    .publisher-chooser {
-      padding-top: 10px;
-    }
+.footer {
+	text-align: right;
+	float: right;
+}
 
-    .publisher-btn {
-      padding: 3px 6px;
-      margin-right: 5px;
-    }
+.publisher-chooser {
+  padding-top: 10px;
+}
 
-    .publisher-chooser {
-      text-align: left;
-    }
+.publisher-btn {
+  padding: 3px 6px;
+  margin-right: 5px;
+}
 
-    .result-btn {
-      margin-right: 5px;
-    }
+.publisher-chooser {
+  text-align: left;
+}
 
-    .result {
-      margin-bottom: 5px;
-    }
+.result-btn {
+  margin-right: 5px;
+}
 
-    .cluster-label {
-      margin-left: 5px;
-    }
+.result {
+  margin-bottom: 5px;
+}
 
-    .recfor {
-      margin-top: 20px;
-    }
+.cluster-label {
+  margin-left: 5px;
+}
+
+.recfor {
+  margin-top: 20px;
+}
+
+
+
+
+////////////////////////////// Zoom
+.node {
+  cursor: pointer;
+}
+
+.node:hover {
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.node--leaf {
+  fill: white;
+}
+
+.label {
+  font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-anchor: middle;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+}
+
+.label,
+.node--root,
+.node--leaf {
+  pointer-events: none;
+}

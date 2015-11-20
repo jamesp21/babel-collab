@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+
+    <!-- Angular libraries and dependencies (jQuery, for Bootstrap.js) -->
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.3/ui-bootstrap.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
+
+    <!-- CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/about.css"/>
+</head>
+
+
+
+<body style="background-color: #FAFAFA">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--<a class="navbar-brand" href="/">Babel</a>-->
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/">Home</a></li>
+            <li class="active"><a href="#">About</a></li>
+            <li><a href="http://babel-us-east-1.eigenfactor.org/ui/">API</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+
+
+    <div class="container" style="margin-bottom: 30px;">
+      <div class="alert alert-info alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+          We are aware of issues pertaining to MAS links being broken and are currently working on a solution. We apologize for any inconvenience this may cause.
+      </div>
+      <div class="row">
+        <!-- <img class="responsive center-block" src="/img/net_picture.png"> -->
+      </div>
+
+<h1>Babel</h1>
+
+<h2>Scholarly Article Recommendation as a Service</h2>
+
+<p>Babel is a platform for research in scholaraly article recommendation. Put succinctly, we are creating a platform to provide <em>scholaraly article recommendations as a service</em>, exposed as <a href="http://babel-us-east-1.eigenfactor.org/ui/">REST APIs</a>, available for anyone in the world to use, free of charge.</p>
+
+<p>Babel is a research project of the <a href="https://datalab.ischool.uw.edu/">DataLab</a>, part of the <a href="https://ischool.uw.edu/">Information School</a> at the <a href="https://www.washington.edu/">University of Washington</a>.</p>
+
+<h2>Who is using Babel?</h2>
+
+<ul>
+<li><a href="http://babel.eigenfactor.org">Babel Demonstration Website</a> - Our website to demonstrate how Babel can be used to easily build powerful tools. You are likely on it right now.</li>
+<li><a href="https://github.com/kyleestlick/Babel">Firefox/Chrome Browser Plugins</a> - These plugins augment Google Scholar, adding an icon to show when Babel has recommendations available for a paper. Click the icon to see Babel's recommendations. Will soon be on the store.</li>
+<li><a href="http://labs.jstor.org/sustainability/">JSTOR Labs Sustainability Collection</a> - Paper level recommendations are provided by Babel, making JSTOR the first third party to integrate with the platform.</li>
+</ul>
+
+
+<h2>Why build this?</h2>
+
+<p>We built Babel to solve two issues researchers face when trying to develop new scholarly article recommendation algorithms:</p>
+
+<ul>
+<li>Getting access to publication data is hard</li>
+<li>Measuring efficacy of recommender systems is difficult
+
+<blockquote><p>"... we conclude that it is currently not possible to determine which recommendation approaches for academic literature are the most promising. However, there is little value in the existence of more than 80 approaches if the best performing approaches are unknown."<br> J. Beel, S. Langer, M. Genzmehr, B. Gipp, C. Breitinger, and A. Nürnberger, “Research Paper Recommender System Evaluation: A Quantitative Literature Survey,” RecSys, no. April, pp. 15–22, 2013.</p></blockquote></li>
+</ul>
+
+
+<h2>Who is Babel for?</h2>
+
+<ol>
+<li>Scientists trying to create better recommendation algorithms for scholarly articles</li>
+<li>People who <em>need</em> scholarly articles recommendations
+
+<ol>
+<li>Publishers, who want users to find related content</li>
+<li>Developers, looking to build new tools to facilitate the scholarly process</li>
+</ol>
+</li>
+</ol>
+
+
+<h2>How can I use Babel's recommendations?</h2>
+
+<p>If you are an end user looking to access recommendations, try the <a href="http://babel.eigenfactor.org">demonstration website</a>. If you are a publisher or tool developer, check our our <a href="http://babel-us-east-1.eigenfactor.org/ui/">API documentation</a>. <a href="http://babel-us-east-1.eigenfactor.org/swagger.json">We publish a Swagger file</a> you can use to build any SDKs you might need. Please send us an email to let us know you are using Babel, and join the <a href="https://groups.google.com/forum/#!forum/babel-platform-announce">announce list</a> to be notified of any potentially breaking API changes. You might also join the <a href="https://groups.google.com/forum/#!forum/babel_platform_discuss">discussion list</a> if you are so inclined.</p>
+
+<h2>How can I add my recommender to Babel?</h2>
+
+<p>Please <a href="mailto:jevinw@uw.edu">contact us</a> to discuss how we can add your recommender to Babel.</p>
+
+<h2>What's the deal with this site?</h2>
+
+<p>This site is a <em>demonstration</em> only, a way to show what could be built (and how to use the APIs we expose). Feel free to use it if you find it uself, and we may develop it further later, but keep in mind it is a demo. Things may break or not look right.</p>
+
+<h2>FAQs</h2>
+
+<ol>
+<li>What is the price to use the service? This service is offered free of charges as part of a research project. All we ask is that you provide us with feedback that will help us improve the system.</li>
+<li>Why can’t I find my paper? We may not have a dataset containing your work, or we haven't had a chance to add it yet, or our metadata might be messed up. We are adding more datasets all the time, and improving our metadata, so please check back regularly!</li>
+<li>How often are the data updated? We plan on continually adding data as it because available for this research project.</li>
+<li>Do you plan to incorporate other recommendation algorithms? Yes, we plan on adding other recommendation algorithms. Currently, we have two variants of our Eigenfactor Recommends algorithm (Classic and Expert), but are looking to add other recommenders. If you wish to test your algorithm on Babel please contact us.</li>
+<li>Where can I find these recommendations? Currently recommendations are available from our demo website or via <a href="http://babel-us-east-1.eigenfactor.org/ui/">REST APIs</a>. In the near future we hope to integrate our recommendation platform with publishers or other projects that have a need for scholarly article recommendations.</li>
+</ol>
+
+      <h2>Datasets</h2>
+      <p>Babel is currently operating with six datasets:</p>
+      <h3><img src="/img/jstor.ico" height="16" width="16">&nbsp;<a href="http://www.jstor.org/">JSTOR</a></h3>
+      <ul>
+        <li>1,787,351 Papers</li>
+        <li>8,227,537 Citations</li>
+        <li>14,813,224 Recommendations</li>
+        <li>Average 8.28 Recommendations per-paper</li>
+      </ul>
+      <h3><img src="/img/plos.ico" height="16" width="16">&nbsp;<a href="http://www.plos.org/">PLOS</a></h3>
+      <ul>
+        <li>1,599,712 Papers</li>
+        <li>3,232,766 Citations</li>
+        <li>8,647,037 Recommendations</li>
+        <li>Average 5.4 Recommendations per-paper</li>
+      </ul>
+      <h3><img src="/img/pubmed.ico" height="16" width="16">&nbsp;<a href="http://www.ncbi.nlm.nih.gov/pubmed">PubMed</a></h3>
+      <ul>
+        <li>5,538,322 Papers</li>
+        <li>16,004,596 Citations</li>
+        <li>34,026,854 Recommendations</li>
+        <li>Average 6.1 Recommendations per-paper</li>
+      </ul>
+      <h3><img src="/img/arxiv.ico" height="16" width="16">&nbsp;<a href="http://arxiv.org/">arXiv</a></h3>
+      <ul>
+        <li>626,441 Papers</li>
+        <li>781,108 Citations</li>
+        <li>5,624,262 Recommendations</li>
+        <li>Average 8.9 Recommendations per-paper</li>
+      </ul>
+      <h3><img src="/img/dblp.png" height="16" width="16">&nbsp;<a href="http://dblp.uni-trier.de/">DBLP</a></h3>
+      <ul>
+        <li>781,108 Papers</li>
+        <li>4,191,677 Citations</li>
+        <li>2,163,313 Recommendations</li>
+        <li>Average 2.76 Recommendations per-paper</li>
+      </ul>
+      <h3><img src="/img/mas.png" height="16" width="16">&nbsp;<a href="http://academic.research.microsoft.com/">MAS</a></h3>
+      <ul>
+        <li>27,352,532 Papers</li>
+        <li>245,796,494 Recommendations</li>
+        <li>Average 8.98 Recommendations per-paper</li>
+      </ul>
+      <h3><img src="/img/aminer.ico" height="16" width="16">&nbsp;<a href="https://aminer.org/billboard/AMinerNetwork">AMiner</a></h3>
+      <ul>
+        <li>2,092,356 Papers</li>
+        <li>8,024,869 Citations</li>
+        <li>22,112,496 Recommendations</li>
+        <li>Average 10.57 Recommendations per-paper</li>
+      </ul>
+
+
+<h2>Papers</h2>
+
+<ul>
+<li><a href="http://ceur-ws.org/Vol-1344/paper4.pdf">Wesley-Smith, I., Dandrea R., West, J.D. (2015) An Experimental Platform for Scholarly Article Recommendation. 37th European Conference on Information Retrieval</a></li>
+<li>West, J.D., Wesley-Smith, I., Bergstrom, C. (2015) A recommendation system based on hierarchical clustering of an article-level citation network (in prep)</li>
+</ul>
+
+
+<h2>People</h2>
+
+<ul>
+<li><a href="http://jevinwest.org/">Jevin D. West</a>, Assistant Professor, University of Washington Information School</li>
+<li><a href="http://iwsmith.in/">Ian Wesley-Smith</a>, PhD Student, University of Washington Information School</li>
+<li><a href="http://octavia.zoology.washington.edu/">Carl T. Bergstrom</a>, Professor, Department of Biology, University of Washington</li>
+<li><a href="mailto:estlick@uw.edu">Kyle Estlick</a></li>
+</ul>
+
+
+<h2>Funding and Sponsors</h2>
+
+<p>We would like to thank our sponsors at the Metaknowledge Network funded by the Templeton Foundation.</p>
+
+<h2>Contact</h2>
+
+<p>If you have questions, please email Jevin D. West at <a href="mailto:jevinw@uw.edu">jevinw@uw.edu</a></p>
+
+
+  </div>
+
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted">A project of the <a href="http://datalab.ischool.uw.edu">DataLab</a> at the <a href="https://ischool.uw.edu/">University of Washington iSchool</a>. © 2015 <a href="http://www.washington.edu/">University of Washington</a></p>
+      </div>
+    </footer>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  
+  
+</body>

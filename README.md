@@ -1,2 +1,1 @@
-# babel-collab
-my favorite candy is gummi bears, especially all the time!
+Click on any package to zoom in or out. See also this [static circle packing](/mbostock/4063530) example.
