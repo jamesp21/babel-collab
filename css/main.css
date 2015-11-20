@@ -1,0 +1,52 @@
+body {
+      padding-top: 50px;
+      margin-bottom: 60px;
+    }
+
+    html {
+      position: relative;
+      min-height: 100%;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      /* Set the fixed height of the footer here */
+      height: 30px;
+      background-color: #FAFAFA;
+      text-align: center;
+    }
+
+    .starter-template {
+      padding: 40px 15px;
+    }
+
+    .publisher-chooser {
+      padding-top: 10px;
+    }
+
+    .publisher-btn {
+      padding: 3px 6px;
+      margin-right: 5px;
+    }
+
+    .publisher-chooser {
+      text-align: left;
+    }
+
+    .result-btn {
+      margin-right: 5px;
+    }
+
+    .result {
+      margin-bottom: 5px;
+    }
+
+    .cluster-label {
+      margin-left: 5px;
+    }
+
+    .recfor {
+      margin-top: 20px;
+    }
