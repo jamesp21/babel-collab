@@ -7,57 +7,15 @@ console.log('outside controller')
 var myCtrl = myApp.controller('myCtrl', function($scope, $http) {
     $scope.getSearch = function() {
     $http.get(baseUrl + $scope.usrSearch).success(function(response){
-        data = $scope.usrSearch = response.results
+        root = $scope.usrSearch = response.results
         console.log(response)
     })
     };
-    var file = "json/flare.json"
+    /*var file = "json/flare.json"
     $http.get(file).success(function(response) {
     root = $scope.bubbles = response
     console.log(response.children)
-    })
-
-    // Transforming search output into a workable nested tree structure
-
-    // Initializing tree with root 
-    jsonData = {
-        "name": 'root', "children": [{
-
-        }] 
-    }
-    // Looping through the array
-    
-    var labels = []
-
-    for (var result = 0; result <= data.length; result++) {
-        for(var i = 0; i <= labels.length; i++) {
-            if (data[result][label] == labels[i]) {
-
-            } else {
-                
-            }
-        }
-        
-
-
-            var articles = []
-            result[publisher]
-            // create array article
-            // create all the publishers 
-            // create all the labels
-            // push all the articles into the publishers
-            // push all the publishers into label
-            // push all labels into root?
-
-            if (data[result][label][publisher].hasOwnProperty(result.publisher)) {
-                // publisher exists, put result in there              
-            } else {
-                // publisher doesn't exit make a publisher object
-            }
-            break;
-        }
-    }
-    //
+    })*/
 
 })
 
@@ -80,6 +38,47 @@ var myDir = myApp.directive("bubbleChart", function($window) {
         draw()
         })
 
+        // Transforming search output into a workable nested tree structure
+
+        // Initializing tree with root 
+        jsonData = {
+            "name": 'root', "children": [{
+
+            }] 
+        }
+
+        // Looping through the array
+        var labels = [];
+        var publishers = [];
+        var articles = [];
+
+        for (var i = 0; i <= scope.root.length; ii++) {
+            for(var j = 0; j <= labels.length; j++) {
+                //if the label from the as equal a label in "our"labels array then...
+                if (scope.root[i][label] == labels[j]) {
+                    //if the publisher from our as equals a publisher in "our" publisher's array then..
+                    if (scope.root[i][publisher] == publishers[j]){
+                        //grab the obaect within the publisher array and add/push the article title to the array thats within this obaect
+                        publishers[j].push(scope.root[i]["Title"]);
+                    } else {
+                        //create a new publisher obaect of arrays in the publisher array and name it that, 
+                        //then push/add the article within the new obaect of arrays we aust created
+                        var tempPublisher = {publisher: scope.root[i][publisher]}
+                        tempPublisher.scope.root.publisher = scope.root[i][article]
+                        publishers.push(tempPublisher)
+
+                    }
+                } else {
+                    //means we don't have anything or we don't have that particular lable
+                    //so we add that label from results to the label array as a new lable
+
+                    //then we add a new publisher obaect within this publisher array
+
+                    //then we add the article to this array within that publisher object
+                }
+            }
+        }
+        console.log(jsonData)
         var margin = 20,
             diameter = 500;
 
@@ -98,17 +97,7 @@ var myDir = myApp.directive("bubbleChart", function($window) {
             .attr("height", diameter)
             .append("g")
                 .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
-
-
-
-
-
-
-
-
-
-
-
+     
         var draw = function() {     
  
             // Make a copy of your data, stored in an object {children:FILTERED-DATA}
