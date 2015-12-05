@@ -1,5 +1,5 @@
-var data;
-//var root;
+//var data;
+var root;
 var jsonResult;
 var baseUrl = 'http://babel-us-east-1.eigenfactor.org/search?q=';
 var myApp = angular.module('myApp', []);
@@ -10,8 +10,8 @@ myApp.controller('myCtrl', function($scope, $http) {
     $scope.getSearch = function() {
         console.log('Step 1: getSearch');
         $http.get(baseUrl + $scope.usrSearch).success(function(response){
-            data = $scope.usrSearch = response.results
-            buildHierarchy(data)
+            root = $scope.bubbles = response.results
+            buildHierarchy(root)
         })
     };
 
@@ -97,7 +97,7 @@ myApp.controller('myCtrl', function($scope, $http) {
 
 
             var margin = 20,
-                diameter = 500;
+                 diameter = 500;
 
             var color = d3.scale.linear()
                 .domain([-1, 5])
@@ -113,12 +113,13 @@ myApp.controller('myCtrl', function($scope, $http) {
                 .attr("width", diameter)
                 .attr("height", diameter)
                 .append("g")
-                    .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+                    .attr("transform", "translate(" + diameter / 2  + "," + diameter /2 + ")");
          
             var draw = function() {     
                 console.log('Step 2: drawBubbles');
                 // Make a copy of your data, stored in an object {children:FILTERED-DATA}
                 scope.filteredData = angular.copy(scope.root)//filtered)}
+                console.log('this is scope.filteredData: ' + scope.filteredData)
                 var focus = scope.root,
                         nodes = pack.nodes(scope.filteredData),
                         view;
@@ -126,17 +127,31 @@ myApp.controller('myCtrl', function($scope, $http) {
                 var circle = svg.selectAll("circle")
                         .data(nodes)
                     .enter().append("circle")
-                        .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--scope.root"; })
-                        .style("fill", function(d) { return d.children ? color(d.depth) : null; })
+                        .attr("class", function(d) { return d ? d.children ? "node" : "node node--leaf" : "node node--scope.root"; })
+                        .style("fill", function(d) {
+                        for (var i = 0; i < d.length; i++) {
+                         return d[0] ? color(d.depth) : null; 
+                        }
+                         })//return d.children ? color(d.depth) : null; })
+                        .attr("cy", function(d) {return d[0].score * 30})
+                        .attr("r", function(d) {return d[0].score * 15})
+                        .attr("cx", function(d) {return d[0].score * 30})
+                        
                         .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
 
                 var text = svg.selectAll("text")
                         .data(nodes)
                     .enter().append("text")
                         .attr("class", "label")
-                        .style("fill-opacity", function(d) { return d.parent === scope.filteredData ? 1 : 0; })
-                        .style("display", function(d) { return d.parent === scope.filteredData ? "inline" : "none"; })
-                        .text(function(d) { return d.name; });
+                        .style("fill-opacity", function(d) { return d === scope.filteredData ? 1 : 0; })
+                        .style("display", function(d) { return d === scope.filteredData ? "inline" : "none"; })
+                        .text(function(d) { 
+                          for (var i = 0; i < d.length; i++) {
+                          return d[i].title
+                          }
+                           })
+                        .attr("y", function(d) {return d[0].score * 30})
+                        .attr("x", function(d) {return d[0].score * 30});
 
                 var node = svg.selectAll("circle,text");
 
@@ -169,7 +184,7 @@ myApp.controller('myCtrl', function($scope, $http) {
                     console.log('zoomto',v)
                     var k = diameter / v[2]; view = v;
                     node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
-                    circle.attr("r", function(d) { return d.r * k; });
+                    circle.attr("r", function(d) { return d[0].score * k; });
                 }
 
                 d3.select(self.frameElement).style("height", diameter + "px");
