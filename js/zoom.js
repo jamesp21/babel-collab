@@ -103,11 +103,11 @@ var myDir = myApp.directive("bubbleChart", function($window) {
                 .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
      
 
-        // Bubble function
+        // Circle positioning function
         var circleFunc = function(circle) {
             circle.attr('cx', function(d){return d.x})
                 .attr('cy', function(d){return d.y})
-                .attr('r', function(d){return d.r})
+                .attr('r', function(d){return d.score})
                 .attr('fill', function(d) {
                 })
         }
@@ -162,10 +162,6 @@ var myDir = myApp.directive("bubbleChart", function($window) {
                         .each("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                         .each("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
             }
-<<<<<<< edc5530f225125304f7655b16af906944daecbfd
-=======
-
->>>>>>> bal
                 d3.select(self.frameElement).style("height", diameter + "px");
             }
         }
