@@ -162,6 +162,10 @@ var myDir = myApp.directive("bubbleChart", function($window) {
                         .each("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                         .each("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
             }
+<<<<<<< edc5530f225125304f7655b16af906944daecbfd
+=======
+
+>>>>>>> bal
                 d3.select(self.frameElement).style("height", diameter + "px");
             }
         }
