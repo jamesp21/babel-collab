@@ -70,7 +70,7 @@ var myDir = myApp.directive("bubbleChart", function($window) {
     scope:{
         root:'=',
     }, 
-    link: function(scope, elem, attrs){
+    link: function(scope, elem, attrs) {
 
         //Wrapper element to put your svg chart in
         wrapper = d3.select(elem[0]);
@@ -94,7 +94,7 @@ var myDir = myApp.directive("bubbleChart", function($window) {
         var pack = d3.layout.pack()
             .padding(2)
             .size([diameter - margin, diameter - margin])
-            .value(function(d) { return d.depth; })
+            .value(function(d) { return (d.score * 1000)})
 
         var svg = wrapper.append("svg")
             .attr("width", diameter)
@@ -107,7 +107,7 @@ var myDir = myApp.directive("bubbleChart", function($window) {
         var circleFunc = function(circle) {
             circle.attr('cx', function(d){return d.x})
                 .attr('cy', function(d){return d.y})
-                .attr('r', function(d){return d.score})
+                .attr('r', function(d){return d.r})
                 .attr('fill', function(d) {
                 })
         }
@@ -162,6 +162,13 @@ var myDir = myApp.directive("bubbleChart", function($window) {
                         .each("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                         .each("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
             }
+
+            function zoomTo(v) {
+                var k = diameter / v[2]; view = v;
+                node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
+                circle.attr("r", function(d) { return d.r * k; });
+            }
+
                 d3.select(self.frameElement).style("height", diameter + "px");
             }
         }
