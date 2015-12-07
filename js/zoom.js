@@ -8,10 +8,15 @@ myApp.controller('myCtrl', function($scope, $http) {
 
     $scope.getSearch = function() {
         $http.get(baseUrl + $scope.usrSearch).success(function(response){
-            root = $scope.bubbles = buildHierarchy(response.results)
-            
+            root = $scope.bubbles = buildHierarchy(response.results) 
         })
     };
+
+   /* var file = "json/flare.json"
+      $http.get(file).success(function(response) {
+        root = $scope.bubbles = response
+        console.log(response.children)
+      })*/
 
     var buildHierarchy = function(json) {
         var structuredObject = {
@@ -54,9 +59,10 @@ myApp.controller('myCtrl', function($scope, $http) {
             }
             childrenArray.push(newPublisherObject)
         }
-        var jsonResults = JSON.stringify(structuredObject)
+        /*var jsonResults = JSON.stringify(structuredObject)
         $scope.root = jsonResults
-        return jsonResults;
+        return jsonResults;*/
+        return structuredObject;
     }
 
 })
@@ -94,7 +100,7 @@ var myDir = myApp.directive("bubbleChart", function($window) {
         var pack = d3.layout.pack()
             .padding(2)
             .size([diameter - margin, diameter - margin])
-            .value(function(d) { return (d.score * 1000)})
+            .value(function(d) { return d.score * 1000})//d.depth;})//(d.score * 1000)})
 
         var svg = wrapper.append("svg")
             .attr("width", diameter)
@@ -104,13 +110,13 @@ var myDir = myApp.directive("bubbleChart", function($window) {
      
 
         // Circle positioning function
-        var circleFunc = function(circle) {
+        /*var circleFunc = function(circle) {
             circle.attr('cx', function(d){return d.x})
                 .attr('cy', function(d){return d.y})
                 .attr('r', function(d){return d.r})
                 .attr('fill', function(d) {
                 })
-        }
+        }*/
 
         var draw = function() {     
  
@@ -125,7 +131,7 @@ var myDir = myApp.directive("bubbleChart", function($window) {
                 .enter().append("circle")
                     .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--scope.root"; })
                     .style("fill", function(d) { return d.children ? color(d.depth) : null; })
-                    .call(circleFunc)
+                    //.call(circleFunc)
                     .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
 
             var text = svg.selectAll("text")
@@ -134,7 +140,7 @@ var myDir = myApp.directive("bubbleChart", function($window) {
                     .attr("class", "label")
                     .style("fill-opacity", function(d) { return d.parent === scope.filteredData ? 1 : 0; })
                     .style("display", function(d) { return d.parent === scope.filteredData ? "inline" : "none"; })
-                    .text(function(d) { return d.name; });
+                    .text(function(d) { return d.title; });
 
             var node = svg.selectAll("circle,text");
 
