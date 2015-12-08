@@ -5,10 +5,12 @@ var myApp = angular.module('myApp', []);
 
 myApp.controller('myCtrl', function($scope, $http) {
     //console.log('test: ' + baseUrl + $scope.usrSearch)
+    $scope.selected = ""
 
     $scope.getSearch = function() {
         $http.get(baseUrl + $scope.usrSearch).success(function(response){
             root = $scope.bubbles = buildHierarchy(response.results) 
+            console.log(root)
         })
     };
 
@@ -32,29 +34,29 @@ myApp.controller('myCtrl', function($scope, $http) {
         function addLabel(label, obj, objArray) {
             for (var i = 0; i < objArray.length; i++) {
                 var labelObject = objArray[i];
-                if (labelObject.label == label) {
-                    addToChildren(obj.publisher, obj, labelObject.children)
+                if (labelObject.title == label) {
+                    addToChildren(obj.title, obj, labelObject.children)
                     return
                 }
             }
             var labelObject = {
-                "label": label,
+                "title": label,
                 "children" : []
             }
-            addToChildren(obj.publisher, obj, labelObject.children)
+            addToChildren(obj.title, obj, labelObject.children)
             objArray.push(labelObject)
         }
 
         function addToChildren(publisherName, book, childrenArray) {
             for (var i = 0; i < childrenArray.length; i++) {
                 var childPublisher = childrenArray[i];
-                if (childPublisher.publisher == publisherName) {
+                if (childPublisher.title == publisherName) {
                     childPublisher.children.push({"title" : book.title, "score" : book.score})
                     return
                 }
             }
             var newPublisherObject = {
-                "publisher": publisherName,
+                "title": publisherName,
                 "children" : [{"title" : book.title, "score" : book.score}]
             }
             childrenArray.push(newPublisherObject)
@@ -75,7 +77,9 @@ var myDir = myApp.directive("bubbleChart", function($window) {
     // Add data to your directive scope (passed in via your html tag)
     scope:{
         root:'=',
+        selected: '=',
     }, 
+    transclude:true,
     link: function(scope, elem, attrs) {
 
         //Wrapper element to put your svg chart in
@@ -90,7 +94,7 @@ var myDir = myApp.directive("bubbleChart", function($window) {
         })
 
         var margin = 20,
-            diameter = 500;
+            diameter = 960;
 
         var color = d3.scale.linear()
             .domain([-1, 5])
@@ -100,7 +104,7 @@ var myDir = myApp.directive("bubbleChart", function($window) {
         var pack = d3.layout.pack()
             .padding(2)
             .size([diameter - margin, diameter - margin])
-            .value(function(d) { return d.score * 1000})//d.depth;})//(d.score * 1000)})
+            .value(function(d) { return d.score })//d.depth;})//(d.score * 1000)})
 
         var svg = wrapper.append("svg")
             .attr("width", diameter)
@@ -127,11 +131,13 @@ var myDir = myApp.directive("bubbleChart", function($window) {
                     view;
 
             var circle = svg.selectAll("circle")
-                    .data(nodes)
-                .enter().append("circle")
+                     .data(nodes, function(d) {return d.title});
+                    //.data(nodes)
+                circle.enter().append("circle")
                     .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--scope.root"; })
                     .style("fill", function(d) { return d.children ? color(d.depth) : null; })
                     //.call(circleFunc)
+                    //circle.exit().remove()
                     .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
 
             var text = svg.selectAll("text")
@@ -146,11 +152,16 @@ var myDir = myApp.directive("bubbleChart", function($window) {
 
             wrapper
                     .style("background", color(-1))
-                    .on("click", function() { zoom(scope.filteredData); });
+                    .on("click", function(d) {  zoom(scope.filteredData); });
 
              zoomTo([scope.filteredData.x, scope.filteredData.y, scope.filteredData.r * 2 + margin]);
 
             function zoom(d) {
+                // scope.selected = d.title; console.log(scope.selected);
+                scope.$apply(function(){
+                    scope.selected= d.title
+                    console.log(scope.selected)
+                })
             console.log(d)
                 var focus0 = focus; focus = d;
 
@@ -170,9 +181,12 @@ var myDir = myApp.directive("bubbleChart", function($window) {
             }
 
             function zoomTo(v) {
+                //var circles = svg.selectAll("circle")
+
                 var k = diameter / v[2]; view = v;
                 node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
                 circle.attr("r", function(d) { return d.r * k; });
+                circle.exit().remove()
             }
 
                 d3.select(self.frameElement).style("height", diameter + "px");
