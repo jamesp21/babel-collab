@@ -4,7 +4,6 @@ var baseUrl = 'http://babel-us-east-1.eigenfactor.org/search?q=';
 var myApp = angular.module('myApp', []);
 
 myApp.controller('myCtrl', function($scope, $http) {
-    //console.log('test: ' + baseUrl + $scope.usrSearch)
     $scope.selected = ""
 
     $scope.getSearch = function() {
@@ -13,12 +12,6 @@ myApp.controller('myCtrl', function($scope, $http) {
             console.log(root)
         })
     };
-
-   /* var file = "json/flare.json"
-      $http.get(file).success(function(response) {
-        root = $scope.bubbles = response
-        console.log(response.children)
-      })*/
 
     var buildHierarchy = function(json) {
         var structuredObject = {
@@ -37,7 +30,7 @@ myApp.controller('myCtrl', function($scope, $http) {
                 if (labelObject.title == label) {
                     addToChildren(obj.title, obj, labelObject.children)
                     return
-                }
+                } 
             }
             var labelObject = {
                 "title": label,
@@ -61,14 +54,9 @@ myApp.controller('myCtrl', function($scope, $http) {
             }
             childrenArray.push(newPublisherObject)
         }
-        /*var jsonResults = JSON.stringify(structuredObject)
-        $scope.root = jsonResults
-        return jsonResults;*/
         return structuredObject;
     }
-
 })
-
 
 var myDir = myApp.directive("bubbleChart", function($window) {
     // Return your directive
@@ -123,15 +111,11 @@ var myDir = myApp.directive("bubbleChart", function($window) {
         }*/
 
         var draw = function() {     
- 
-
-
-
             // Make a copy of your data, stored in an object {children:FILTERED-DATA}
             scope.filteredData = angular.copy(scope.root)//filtered)}
             var focus = scope.root,
-                    nodes = pack.nodes(scope.filteredData),
-                    view;
+                nodes = pack.nodes(scope.filteredData),
+                view;
 
             var circle = svg.selectAll("circle")
                      .data(nodes, function(d) {return d.title});
@@ -139,8 +123,6 @@ var myDir = myApp.directive("bubbleChart", function($window) {
                 circle.enter().append("circle")
                     .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--scope.root"; })
                     .style("fill", function(d) { return d.children ? color(d.depth) : null; })
-                    //.call(circleFunc)
-                    //circle.exit().remove()
                     .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); })
                     
                     // Mouseover effect!!!
@@ -152,25 +134,17 @@ var myDir = myApp.directive("bubbleChart", function($window) {
                         d3.select(this).select("circle").style("display", "none");
                     });
 
-                    /*
-                    $(document).ready(function(){
-                        $("d3.select(this).select('circle')").hover(function(){
-                            $("text").css("display", "inline");
-                        }, function(){
-                            $("text").css("display", "none");
-                        });
-                    });
-                    */
-            
+            //solution to do a second search
+            svg.selectAll("text").remove();
 
             var text = svg.selectAll("text")
-                    .data(nodes, function(d) {return d.title});
-                text.enter().append("text")
+                    .data(nodes)
+                .enter().append("text")
                     .attr("class", "label")
                     .style("opacity", function(d) { return d.parent === scope.filteredData ? 0.5 : 1; })
                     .style("display", function(d) { return d.parent === scope.filteredData ? "inline" : "none"; })
-                    .style("font-size", function(d) { return d.parent === scope.filteredData ? 30 : 30; })          
-                    .text(function(d) { return d.title; });
+                    .style("font-size", function(d) { return d.parent === scope.filteredData ? 25 : 15; })          
+                    .text(function(d) { return d.title });
             
 
             var node = svg.selectAll("circle,text");
@@ -198,26 +172,19 @@ var myDir = myApp.directive("bubbleChart", function($window) {
                             return function(t) { zoomTo(i(t)); };
                         });
 
-
                 transition.selectAll("text")
                     .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
                         .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
                         .each("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-                        .each("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
-
-                        
+                        .each("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });                      
             }
 
             function zoomTo(v) {
-                //var circles = svg.selectAll("circle")
-
                 var k = diameter / v[2]; view = v;
                 node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
                 circle.attr("r", function(d) { return d.r * k; });
-                text.exit().remove()
                 circle.exit().remove()
             }
-
                 d3.select(self.frameElement).style("height", diameter + "px");
             }
         }

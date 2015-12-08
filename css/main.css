@@ -21,6 +21,7 @@ html {
 .footer {
 	text-align: right;
 	float: right;
+  font-size: 15px;
 }
 
 .publisher-chooser {
