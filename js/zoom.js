@@ -88,9 +88,9 @@ var myDir = myApp.directive("bubbleChart", function($window) {
        // console.log(scope.root + "");
 
         scope.$watch('root', function(){
-        if (scope.root == undefined) return
-        console.log(scope.root)
-        draw()
+            if (scope.root == undefined) return
+            console.log(scope.root)
+            draw()
         })
 
         var margin = 20,
@@ -111,7 +111,7 @@ var myDir = myApp.directive("bubbleChart", function($window) {
             .attr("height", diameter)
             .append("g")
                 .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
-     
+
 
         // Circle positioning function
         /*var circleFunc = function(circle) {
@@ -124,6 +124,9 @@ var myDir = myApp.directive("bubbleChart", function($window) {
 
         var draw = function() {     
  
+
+
+
             // Make a copy of your data, stored in an object {children:FILTERED-DATA}
             scope.filteredData = angular.copy(scope.root)//filtered)}
             var focus = scope.root,
@@ -138,20 +141,42 @@ var myDir = myApp.directive("bubbleChart", function($window) {
                     .style("fill", function(d) { return d.children ? color(d.depth) : null; })
                     //.call(circleFunc)
                     //circle.exit().remove()
-                    .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); });
+                    .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); })
+                    
+                    // Mouseover effect!!!
+                    .append("svg:title").text(function(d) { return d.title; })
+                    .on("mouseover", function() {
+                        d3.select(this).select("circle").style("display", "inline");
+                    })
+                    .on("mouseout", function () {
+                        d3.select(this).select("circle").style("display", "none");
+                    });
+
+                    /*
+                    $(document).ready(function(){
+                        $("d3.select(this).select('circle')").hover(function(){
+                            $("text").css("display", "inline");
+                        }, function(){
+                            $("text").css("display", "none");
+                        });
+                    });
+                    */
+            
 
             var text = svg.selectAll("text")
                     .data(nodes)
                 .enter().append("text")
                     .attr("class", "label")
-                    .style("fill-opacity", function(d) { return d.parent === scope.filteredData ? 1 : 0; })
+                    .style("opacity", function(d) { return d.parent === scope.filteredData ? 0.5 : 1; })
                     .style("display", function(d) { return d.parent === scope.filteredData ? "inline" : "none"; })
+                    .style("font-size", function(d) { return d.parent === scope.filteredData ? 30 : 30; })          
                     .text(function(d) { return d.title; });
+            
 
             var node = svg.selectAll("circle,text");
 
             wrapper
-                    .style("background", color(-1))
+                    .style("background", color(-10))
                     .on("click", function(d) {  zoom(scope.filteredData); });
 
              zoomTo([scope.filteredData.x, scope.filteredData.y, scope.filteredData.r * 2 + margin]);
@@ -162,7 +187,7 @@ var myDir = myApp.directive("bubbleChart", function($window) {
                     scope.selected= d.title
                     console.log(scope.selected)
                 })
-            console.log(d)
+                console.log(d)
                 var focus0 = focus; focus = d;
 
                 var transition = d3.transition()
@@ -173,11 +198,14 @@ var myDir = myApp.directive("bubbleChart", function($window) {
                             return function(t) { zoomTo(i(t)); };
                         });
 
+
                 transition.selectAll("text")
                     .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
                         .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
                         .each("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
                         .each("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+
+                        
             }
 
             function zoomTo(v) {
