@@ -164,8 +164,8 @@ var myDir = myApp.directive("bubbleChart", function($window) {
             
 
             var text = svg.selectAll("text")
-                    .data(nodes)
-                .enter().append("text")
+                    .data(nodes, function(d) {return d.title});
+                text.enter().append("text")
                     .attr("class", "label")
                     .style("opacity", function(d) { return d.parent === scope.filteredData ? 0.5 : 1; })
                     .style("display", function(d) { return d.parent === scope.filteredData ? "inline" : "none"; })
@@ -214,6 +214,7 @@ var myDir = myApp.directive("bubbleChart", function($window) {
                 var k = diameter / v[2]; view = v;
                 node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
                 circle.attr("r", function(d) { return d.r * k; });
+                text.exit().remove()
                 circle.exit().remove()
             }
 
