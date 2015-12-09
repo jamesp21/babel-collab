@@ -62,9 +62,9 @@
     <div class="container">
     <div class="row starter-template" id="search"><div data-reactid=".0"><div data-reactid=".0.0"><div class="input-group" data-reactid=".0.0.0">
 
-    <input  ng-model="usrSearch" type="search" value="" autocomplete="on" autocorrect="on" class="form-control" placeholder="Search terms, DOI, JSTOR ID, PubMed ID, arXiv ID, or DBLP ID" data-reactid=".0.0.0.0">
+    <input ng-model="usrSearch" type="search" value="" autocomplete="on" autocorrect="on" class="form-control" placeholder="Search terms, DOI, JSTOR ID, PubMed ID, arXiv ID, or DBLP ID" data-reactid=".0.0.0.0">
 
-    <span class="input-group-btn" data-reactid=".0.0.0.1"><button  id="search-button" data-loading-text="Searching..." class="btn btn-default" type="button" data-reactid=".0.0.0.1.0" ng-click="getSearch()">Search</button></span></div><div class="publisher-chooser" data-reactid=".0.0.1">
+    <span class="input-group-btn" data-reactid=".0.0.0.1"><button  id="search-button" data-loading-text="Searching..." class="btn btn-default" type="submit" data-reactid=".0.0.0.1.0" ng-click="getSearch()">Search</button></span></div><div class="publisher-chooser" data-reactid=".0.0.1">
 
     <button background-color="red" type="button" id="aminer" autocomplete="off" class="btn btn-default publisher-btn" data-reactid=".0.0.1.$aminer"><span data-reactid=".0.0.1.$aminer.1">AMiner</span></button>
 
@@ -86,8 +86,7 @@
     <div id="bubble-wrapper">
     <div>{{selected}}</div>
         <!-- Insert your bubble-chart directive-->
-        <bubble-chart id="pokemon" root="bubbles" selected="selected" style="background: white"></bubble-chart>
-        
+        <bubble-chart root="bubbles" selected="selected" style="background: white"></bubble-chart>
     </div>
 
 

@@ -4,12 +4,18 @@ var baseUrl = 'http://babel-us-east-1.eigenfactor.org/search?q=';
 var myApp = angular.module('myApp', []);
 
 myApp.controller('myCtrl', function($scope, $http) {
-    $scope.selected = ""
+    //$scope.selected = ""
 
     $scope.getSearch = function() {
         $http.get(baseUrl + $scope.usrSearch).success(function(response){
-            root = $scope.bubbles = buildHierarchy(response.results) 
-            console.log(root)
+            //case where no results are found
+            if (response.results == "") {
+                $scope.selected = "No results found"
+            } else {
+                $scope.selected = $scope.usrSearch
+                root = $scope.bubbles = buildHierarchy(response.results) 
+                console.log(root)
+            }
         })
     };
 
