@@ -6,7 +6,10 @@ var myApp = angular.module('myApp', []);
 myApp.controller('myCtrl', function($scope, $http) {
     $scope.selected = ""
 
+    //when search button is clicked
     $scope.getSearch = function() {
+
+        //gets 10 search results from the babel back end and does it 3 more times for a total of 40 search items
         $http.get(baseUrl + $scope.usrSearch).success(function(response){
             $http.get(baseUrl + $scope.usrSearch + "&start=10").success(function(response2){
                 $http.get(baseUrl + $scope.usrSearch + "&start=20").success(function(response3){ 
@@ -15,13 +18,13 @@ myApp.controller('myCtrl', function($scope, $http) {
                         sum = sum.concat(response2.results);
                         sum = sum.concat(response3.results);
                         sum = sum.concat(response4.results);
-                        console.log(sum);
 
                         //case where no results are found
                         if (sum == "") {
                             $scope.selected = "No results found"
                         } else {
                             $scope.selected = $scope.usrSearch
+                            //sends search results to build heirarchy function
                             root = $scope.bubbles = buildHierarchy(sum) 
                             console.log(root)
                         }
@@ -31,14 +34,16 @@ myApp.controller('myCtrl', function($scope, $http) {
         })
     };
 
+    //function that gets search items and makes it into a nested hierarchy json structure creating children based
+    //  on labels, publishers, and articel title
     var buildHierarchy = function(json) {
         var structuredObject = {
             "name" : "root",
             "children" : []
         }
 
+        //looping through data and checking if book doesn't have label
         for (var i = 0; i < json.length; i++) {
-            console.log("Size: " + json.length);
             var book = json[i];
             //case where book doesn't have a label
             if (book.label == undefined) {
@@ -47,6 +52,7 @@ myApp.controller('myCtrl', function($scope, $http) {
             addLabel(book.label, book, structuredObject.children)
         }
 
+        //looping through data to nest the labels
         function addLabel(label, obj, objArray) {
             for (var i = 0; i < objArray.length; i++) {
                 var labelObject = objArray[i];
@@ -64,6 +70,7 @@ myApp.controller('myCtrl', function($scope, $http) {
             objArray.push(labelObject)
         }
 
+        //looping through data to nest the publishers
         function addToChildren(publisherName, book, childrenArray) {
             for (var i = 0; i < childrenArray.length; i++) {
                 var childPublisher = childrenArray[i];
@@ -78,6 +85,8 @@ myApp.controller('myCtrl', function($scope, $http) {
             }
             childrenArray.push(newPublisherObject)
         }
+
+        //returns nested json structure
         return structuredObject;
     }
 })
@@ -102,6 +111,7 @@ var myDir = myApp.directive("bubbleChart", function($window) {
             draw()
         })
 
+        //sets size of the biggest outer circle
         var margin = 20,
             diameter = 960;
         diameter.id = ("diameter");
@@ -122,7 +132,7 @@ var myDir = myApp.directive("bubbleChart", function($window) {
             .append("g")
                 .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
-
+        //Puts circles on the screen based off of information found in data
         var draw = function() {     
             // Make a copy of your data, stored in an object {children:FILTERED-DATA}
             scope.filteredData = angular.copy(scope.root)//filtered)}
@@ -133,6 +143,7 @@ var myDir = myApp.directive("bubbleChart", function($window) {
             //solution to solve second search glitch
             svg.selectAll("circle").remove();
 
+            // selects all circles in svg, binds data to them and assigns them properties
             var circle = svg.selectAll("circle")
                 .data(nodes, function(d) {return d.title});
             circle.enter().append("circle")
@@ -153,14 +164,17 @@ var myDir = myApp.directive("bubbleChart", function($window) {
             //solution to solve second search glitch
             svg.selectAll("text").remove();
 
+            //Displays information about the results (labels of categories and titles of articles)
             var text = svg.selectAll("text")
                     .data(nodes);
 
                 text.enter().append("text")
                     .attr("class", "label")
                     .attr("id", "textwrap")
+                    //Sets labels to half opacity and titles to full opacity
                     .style("opacity", function(d) { return d.parent === scope.filteredData ? 0.5 : 1; })
                     .style("display", function(d) { return d.parent === scope.filteredData ? "block" : "none"; })
+                    //Makes label and title size pretty big and keeps labels with one child relatively small
                     .style("font-size", function(d) { return (d.children !== undefined && d.children.length == 1) ? 10 : 30; })      
                     .text(function(d) { return d.title});
             
@@ -173,6 +187,7 @@ var myDir = myApp.directive("bubbleChart", function($window) {
 
              zoomTo([scope.filteredData.x, scope.filteredData.y, scope.filteredData.r * 2 + margin]);
 
+            //Sets all the properties for when the circle is zoomed
             function zoom(d) {
                 // scope.selected = d.title; console.log(scope.selected);
                 scope.$apply(function(){
@@ -197,6 +212,8 @@ var myDir = myApp.directive("bubbleChart", function($window) {
                         .each("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });                      
             }
 
+
+            //Zooms to the specified circle when clicked
             function zoomTo(v) {
                 var k = diameter / v[2]; view = v;
                 node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
