@@ -53,10 +53,75 @@ html {
   margin-top: 20px;
 }
 
+#button1 {
+  color: red;
+  margin: 0px !important; 
+}
+
+#button2 {
+  color: blue;
+  margin: 0px !important; 
+}
+
+#button3 {
+  color: orange;
+  margin: 0px !important; 
+}
+
+#button4 {
+  color: green;
+  margin: 0px !important;
+}
+
+#button5 {
+  color: purple;
+  margin: 0px !important; 
+}
+
+#button6 {
+  color: #D2691E;
+  margin: 0px !important; 
+}
+
+#button7 {
+  color: gray;
+  margin: 0px !important; 
+}
 
 
 
-////////////////////////////// Zoom
+.circle { 
+  text-align: center;  
+  overflow-wrap: break-word;
+  margin: 1rem;
+}
+
+.svg {
+  text-align: center;  
+  overflow-wrap: break-word; 
+  margin: 1rem;
+}
+
+circle { 
+  text-align: center;  
+  overflow-wrap: break-word;
+  margin: 1rem;
+}
+
+svg {
+  text-align: center;  
+  overflow-wrap: break-word; 
+  margin: 1rem; 
+}
+
+bubble-chart{
+  text-align: center;  
+  overflow-wrap: break-word; 
+  margin: 1rem;
+}
+
+
+
 .node {
   cursor: pointer;
 }

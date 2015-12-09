@@ -8,14 +8,27 @@ myApp.controller('myCtrl', function($scope, $http) {
 
     $scope.getSearch = function() {
         $http.get(baseUrl + $scope.usrSearch).success(function(response){
-            //case where no results are found
-            if (response.results == "") {
-                $scope.selected = "No results found"
-            } else {
-                $scope.selected = $scope.usrSearch
-                root = $scope.bubbles = buildHierarchy(response.results) 
-                console.log(root)
-            }
+            $http.get(baseUrl + $scope.usrSearch + "&start=10").success(function(responseNext){
+                $http.get(baseUrl + $scope.usrSearch + "&start=20").success(function(responseLast){  
+                    console.log("response.results: " + response.results)
+                    console.log("responseNext.results: " + responseNext.results)
+                    
+                    var sum = response.results.concat(responseNext.results);
+                    //console.log("sum1: " + sum.length);
+                    sum = sum.concat(responseLast.results);
+                    //console.log("sum2: " + sum.length);
+                    console.log(sum);
+
+                    //case where no results are found
+                    if (sum == "") {
+                        $scope.selected = "No results found"
+                    } else {
+                        $scope.selected = $scope.usrSearch
+                        root = $scope.bubbles = buildHierarchy(sum) 
+                        console.log(root)
+                    }
+                })
+            })
         })
     };
 
@@ -26,6 +39,7 @@ myApp.controller('myCtrl', function($scope, $http) {
         }
 
         for (var i = 0; i < json.length; i++) {
+            console.log("Size: " + json.length);
             var book = json[i];
             //case where book doesn't have a label
             if (book.label == undefined) {
@@ -88,7 +102,7 @@ var myDir = myApp.directive("bubbleChart", function($window) {
 
         scope.$watch('root', function(){
             if (scope.root == undefined) return
-            console.log(scope.root)
+            //console.log(scope.root)
             draw()
         })
 
@@ -160,7 +174,7 @@ var myDir = myApp.directive("bubbleChart", function($window) {
                 // Mouseover effect!!!
                 .append("svg:title").text(function(d) { return d.title; })
                 .on("mouseover", function() {
-                    d3.select(this).select("circle").style("display", "inline");
+                    d3.select(this).select("circle").style("display", "block");
                 })
                 .on("mouseout", function () {
                     d3.select(this).select("circle").style("display", "none");
@@ -176,21 +190,29 @@ var myDir = myApp.directive("bubbleChart", function($window) {
             //solution to solve second search glitch
             svg.selectAll("text").remove();
 
+            console.log("scope.filteredData" + scope.filteredData);
             var text = svg.selectAll("text")
-                    .data(nodes)
-                .enter().append("text")
+                    .data(nodes);
+            console.log(nodes)
+            console.log("nodes.children: " + nodes.children);
+
+                text.enter().append("text")
                     .attr("class", "label")
+                    .attr("id", "textwrap")
                     .style("opacity", function(d) { return d.parent === scope.filteredData ? 0.5 : 1; })
-                    .style("display", function(d) { return d.parent === scope.filteredData ? "inline" : "none"; })
-                    .style("font-size", function(d) { return d.parent === scope.filteredData ? 25 : 15; })          
-                    .text(function(d) { return d.title });
+                    .style("display", function(d) { return d.parent === scope.filteredData ? "block" : "none"; })
+                    //.style("font-size", function(d) { return d.parent === scope.filteredData ? 25 : 15; })
+                    .style("font-size", function(d) { return (d.children !== undefined && d.children.length > 1) ? 25 : 15; })          
+                    .text(function(d) { return d.title});
+            //d3plus.textwrap()
+                //.container(d3.select("#textwrap"));
             
 
             var node = svg.selectAll("circle,text");
 
             wrapper
-                    .style("background", color(-10))
-                    .on("click", function(d) {  zoom(scope.filteredData); });
+                .style("background", color(-10))
+                .on("click", function(d) {  zoom(scope.filteredData); });
 
              zoomTo([scope.filteredData.x, scope.filteredData.y, scope.filteredData.r * 2 + margin]);
 
@@ -212,9 +234,9 @@ var myDir = myApp.directive("bubbleChart", function($window) {
                         });
 
                 transition.selectAll("text")
-                    .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+                    .filter(function(d) { return d.parent === focus || this.style.display === "block"; })
                         .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
-                        .each("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+                        .each("start", function(d) { if (d.parent === focus) this.style.display = "block"; })
                         .each("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });                      
             }
 
