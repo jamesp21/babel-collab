@@ -1,3 +1,15 @@
+body {
+  padding-top: 0px;
+  margin-bottom: 60px;
+  text-align: center;
+  font-size: 30px;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 @import url(http://fonts.googleapis.com/css?family=Capriola);
 #cssmenu,
 #cssmenu ul,
@@ -18,7 +30,7 @@
   height: 59px;
   padding-bottom: 4px;
   padding-top: 0;
-  margin-left: -180px;
+  margin-left: -0px;
 }
 #cssmenu.align-right {
   float: right;
@@ -106,4 +118,131 @@
 #cssmenu ul li.active > a {
   background: url('bg.png');
   color: #ffffff;
+}
+
+@media screen and (min-width: 500px) {
+  #Layer_1{
+    visibility: hidden;
+  }  
+}
+
+@media screen and (min-width: 292px) {
+  #Layer_1 {
+  fill: white;
+  z-index: 99;
+  }  
+}
+
+
+  
+.footer {
+	text-align: right;
+	float: right;
+  font-size: 15px;
+}
+
+.publisher-chooser {
+  padding-top: 10px;
+}
+
+.publisher-btn {
+  padding: 3px 6px;
+  margin-right: 5px;
+}
+
+.publisher-chooser {
+  text-align: left;
+}
+
+.result-btn {
+  margin-right: 5px;
+}
+
+.result {
+  margin-bottom: 5px;
+}
+
+.cluster-label {
+  margin-left: 5px;
+}
+
+.recfor {
+  margin-top: 20px;
+}
+
+
+
+#button1 {
+  color: black;
+  margin: 0px !important; 
+}
+
+#button2 {
+  color: blue;
+  margin: 0px !important; 
+}
+
+#button3 {
+  color: orange;
+  margin: 0px !important; 
+}
+
+#button4 {
+  color: green;
+  margin: 0px !important;
+}
+
+#button5 {
+  color: purple;
+  margin: 0px !important; 
+}
+
+#button6 {
+  color: red;
+  margin: 0px !important; 
+}
+
+#button7 {
+  color: gray;
+  margin: 0px !important; 
+}
+
+
+
+.circle { 
+  text-align: center;  
+  overflow-wrap: break-word;
+  margin: 1rem;
+}
+
+.svg {
+  text-align: center;  
+  overflow-wrap: break-word; 
+  margin: 1rem;
+}
+
+
+.node {
+  cursor: pointer;
+}
+
+.node:hover {
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+.node--leaf {
+  fill: white;
+}
+
+.label {
+  font: 11px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-anchor: middle;
+  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+}
+
+.label,
+.node--root,
+.node--leaf {
+  pointer-events: none;
 }

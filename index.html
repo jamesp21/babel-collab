@@ -24,19 +24,23 @@
   
     <!-- D3 library -->
     <script src="http://d3js.org/d3.v3.min.js"></script>
-    <link rel="shortcut icon" type="image/png" href="thumbnail.png">
     
+    
+    <!-- JavaScript files (including data in data.js) -->
+    <script src="js/nav.js"></script>
     
 </head>
+
 <body ng-app="myApp" ng-controller="myCtrl">
-    <h1>Eigenfactor Visual Prototype V1</h1>
-
-
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <!--__________________________Nav Bar_______________________________-->
+     <div id="cssmenu" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+
                 </button>
                 <!--<a class="navbar-brand" href="/">Babel</a>-->
             </div>
@@ -46,11 +50,12 @@
                     <li><a href="/about.html">About</a></li>
                     <li><a href="http://babel-us-east-1.eigenfactor.org/ui/">API</a></li>
                 </ul>
-            </div><!--/.nav-collapse-->
+            </div><!--/.nav-collapse -->
         </div>
-    </nav>
+    </div>
 
     
+    <h1>Eigenfactor Visual Prototype V1</h1>
 
 
     <!--__________________________Search Bar_______________________________-->
