@@ -21,6 +21,10 @@ myApp.controller('myCtrl', function($scope, $http) {
 
         for (var i = 0; i < json.length; i++) {
             var book = json[i];
+            //case where book doesn't have a label
+            if (book.label == undefined) {
+                book.label = "no label"
+            }
             addLabel(book.label, book, structuredObject.children)
         }
 
@@ -32,6 +36,7 @@ myApp.controller('myCtrl', function($scope, $http) {
                     return
                 } 
             }
+
             var labelObject = {
                 "title": label,
                 "children" : []
@@ -87,7 +92,12 @@ var myDir = myApp.directive("bubbleChart", function($window) {
         var color = d3.scale.linear()
             .domain([-1, 5])
             .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
+
+            //experiment with rgb colors
+            //.range(["hsl(52,80%,80%)", "hsl(128,30%,40%)"])
             .interpolate(d3.interpolateHcl);
+
+        //color.range(["hsl(52,80%,80%)", "hsl(128,30%,40%)"]);
 
         var pack = d3.layout.pack()
             .padding(2)
@@ -99,7 +109,6 @@ var myDir = myApp.directive("bubbleChart", function($window) {
             .attr("height", diameter)
             .append("g")
                 .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
-
 
         // Circle positioning function
         /*var circleFunc = function(circle) {
@@ -117,24 +126,48 @@ var myDir = myApp.directive("bubbleChart", function($window) {
                 nodes = pack.nodes(scope.filteredData),
                 view;
 
-            var circle = svg.selectAll("circle")
-                     .data(nodes, function(d) {return d.title});
-                    //.data(nodes)
-                circle.enter().append("circle")
-                    .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--scope.root"; })
-                    .style("fill", function(d) { return d.children ? color(d.depth) : null; })
-                    .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); })
-                    
-                    // Mouseover effect!!!
-                    .append("svg:title").text(function(d) { return d.title; })
-                    .on("mouseover", function() {
-                        d3.select(this).select("circle").style("display", "inline");
-                    })
-                    .on("mouseout", function () {
-                        d3.select(this).select("circle").style("display", "none");
-                    });
+            //solution to solve second search glitch
+            svg.selectAll("circle").remove();
 
-            //solution to do a second search
+            var circle = svg.selectAll("circle")
+                .data(nodes, function(d) {return d.title});
+                //.data(nodes)
+            circle.enter().append("circle")
+                .attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--scope.root"; })
+                
+                //attempt to change circle colors with if statements
+                /*
+                var booleanColor = function(d) {
+                    return d.title.length < 8
+                }
+                if (booleanColor) {
+                    color.range(["hsl(52,80%,80%)", "hsl(128,30%,40%)"])
+                } else {
+                    color.range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
+                };
+                */
+
+                .style("fill", function(d) { return d.children ? color(d.depth) : null; })
+                //.attr('r', function(d){return 1000})
+                .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); })
+                
+                // Mouseover effect!!!
+                .append("svg:title").text(function(d) { return d.title; })
+                .on("mouseover", function() {
+                    d3.select(this).select("circle").style("display", "inline");
+                })
+                .on("mouseout", function () {
+                    d3.select(this).select("circle").style("display", "none");
+                });
+
+            //attempt to change each circle color and size
+            //color.range(["hsl(52,80%,80%)", "hsl(128,30%,40%)"])
+            svg.selectAll("circle")
+                .attr("r", 100)
+                //.style("fill", "red");
+
+
+            //solution to solve second search glitch
             svg.selectAll("text").remove();
 
             var text = svg.selectAll("text")
@@ -159,15 +192,15 @@ var myDir = myApp.directive("bubbleChart", function($window) {
                 // scope.selected = d.title; console.log(scope.selected);
                 scope.$apply(function(){
                     scope.selected= d.title
-                    console.log(scope.selected)
+                    //console.log(scope.selected)
                 })
-                console.log(d)
+                //console.log(d)
                 var focus0 = focus; focus = d;
 
                 var transition = d3.transition()
                         .duration(d3.event.altKey ? 7500 : 750)
                         .tween("zoom", function(d) {
-                            console.log(view,focus)
+                            //console.log(view,focus)
                             var i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2 + margin]);
                             return function(t) { zoomTo(i(t)); };
                         });
