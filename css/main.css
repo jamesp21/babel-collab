@@ -53,8 +53,10 @@ html {
   margin-top: 20px;
 }
 
+
+
 #button1 {
-  color: red;
+  color: black;
   margin: 0px !important; 
 }
 
@@ -79,7 +81,7 @@ html {
 }
 
 #button6 {
-  color: #D2691E;
+  color: red;
   margin: 0px !important; 
 }
 
@@ -101,25 +103,6 @@ html {
   overflow-wrap: break-word; 
   margin: 1rem;
 }
-
-circle { 
-  text-align: center;  
-  overflow-wrap: break-word;
-  margin: 1rem;
-}
-
-svg {
-  text-align: center;  
-  overflow-wrap: break-word; 
-  margin: 1rem; 
-}
-
-bubble-chart{
-  text-align: center;  
-  overflow-wrap: break-word; 
-  margin: 1rem;
-}
-
 
 
 .node {
